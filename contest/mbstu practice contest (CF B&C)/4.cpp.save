@@ -1,0 +1,73 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long int
+#define mxn 100009
+ll a[mxn];
+int main(){
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    ll n,i,j,k,mx=1;
+    cin>>n;
+    mx=min(2ll,n);
+    for(i=1;i<=n;i++) cin>>a[i];
+    i=j=1;
+    ll f=1;
+    ll pos=0;
+    while(i<=n && j<=n){ //cout<<"start i:"<<i<<" j:"<<j<<endl;
+        if(a[j]>a[j-1]){
+             mx=max(mx,j-i+1);
+            j++;
+        }
+        else if(f==1 && j+1<=n+1 && a[j+1]>a[j-1] && (a[j+1]-a[j-1]>=2)){
+            f=0;
+            pos=j;
+            mx=max(mx,j-i+1);
+            //a[j]=a[j-1]+1;
+            j++;
+        }
+        else if(f==1 && j-2>=0 && a[j]>a[j-2] && (a[j]-a[j-2]>=2)){
+            f=0;
+            pos=j;
+            mx=max(mx,j-i+1);
+            //a[j-1]=a[j]-1;
+            j++;
+        }
+
+        else if(f==1 && a[j]>=1){
+            pos=j;
+            f=0;
+            //a[j-1]=a[j]-1;
+            mx=max(mx,j-i+1);
+            i=j-1;
+            j++;
+        }
+//        else if(f==1){
+//            mx=max(mx,j-i+1);
+//            f=0;
+//            pos=j;
+//            //a[j]=a[j-1]+1;
+//            i++;
+//            //j++;
+//        }
+
+        else if(f==0){
+            if(pos==i) i++;
+            else{
+                while(i<pos) i++;
+            }
+            f=1;
+        }
+        else{
+            i=j;
+            j++;
+            f=1;
+        }
+
+//        cout<<"  end i:"<<i<<" j:"<<j;
+//        cout<<" mx:"<<mx<<endl<<endl;
+    }
+
+    cout<<mx<<"\n";
+    return 0;
+}
